@@ -1,39 +1,92 @@
 package com.delacerna.spotify
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.database.Cursor
 import android.os.Bundle
+import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.widget.LinearLayout
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
+import android.support.design.widget.BottomNavigationView
+import android.view.View
 
-class MainActivity : AppCompatActivity() {
+import android.widget.ImageView
+import kotlinx.android.synthetic.main.fragment.*
 
+
+class MainActivity : AppCompatActivity(){
+
+    var songData: ArrayList<Song> = ArrayList()
+    var songListAdapter: SongListAdapter? = null
+    private var tvPause: ImageView? = null
+    private var tvPlay: ImageView? = null
+    private var mySong = SongService()
+
+    companion object {
+        val REQUEST_CODE = 12
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val rv = findViewById<RecyclerView>(R.id.recyclerView1)
-        rv.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-        val users = ArrayList<Song>()
-
-        users.add(Song("Titibo-Tibo", "Moria Dela Torre", " • Himig Handog 2017"))
-        users.add(Song("Havana", "Camilla Cabello", " • Havana"))
-        users.add(Song("Arms Open", "The Script", " • Human Clay"))
-        users.add(Song("Look At Me Now", "Charlie Puth", " • Alien Boy"))
-        users.add(Song("Where My Love Goes", "Lawson", " • Perspective"))
-        users.add(Song("If You Could See Me Now", "The Script", " • 3"))
-        users.add(Song("Back To You", "Louis Tomlinson", " • Louis Tomlinson"))
-        users.add(Song("Sorry Not Sorry", "Demi Lovato", " • Tell Me You Love Me"))
-        users.add(Song("Too Good At Goodbyes", "Sam Smith", " • The Thrill of It All"))
-        users.add(Song("Perfect", "Ed Sheeran", " • Divide"))
-        users.add(Song("What Lovers Do", "Maroon 5 ft. SZA", " • Red Pill Blues"))
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        BottomNavHelper.disableShiftMode(bottomNavigationView)
 
 
-        var adapter = SongListAdapter(users)
-        rv.adapter = adapter
+
+        if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this@MainActivity,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    REQUEST_CODE)
+        } else {
+            loadData()
+        }
+
+        tvPause = findViewById(R.id.btnPause)
+        tvPlay = findViewById(R.id.btnPlay)
+        btnPause?.setOnClickListener{
+            mySong.pauseSong()
+
+        }
+        tvPlay?.setOnClickListener{
 
 
+        }
 
     }
+
+
+    fun loadData() {
+        var songCursor: Cursor? = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                null, null, null, null)
+        while (songCursor != null && songCursor.moveToNext()) {
+            var songTitle = songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
+            var songSinger = songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
+            var songAlbum = songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM))
+            var songPath = songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.DATA))
+
+            songData.add(Song(songTitle, songSinger, songAlbum, songPath))
+        }
+        songListAdapter = SongListAdapter(songData, applicationContext, mainActivity = MainActivity())
+        var layoutManager = LinearLayoutManager(applicationContext)
+        recyclerView1.layoutManager = layoutManager
+        recyclerView1.adapter = songListAdapter
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                Toast.makeText(applicationContext, "Permission Granted", Toast.LENGTH_SHORT).show()
+            loadData()
+        }
+    }
+
 }
+

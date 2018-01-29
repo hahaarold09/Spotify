@@ -1,19 +1,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragmentContainer"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
-    android:background="#444444"
+    android:layout_height="wrap_content"
+    android:id="@+id/fragmentholder"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.delacerna.spotify.SongFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
+        android:id="@+id/songBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <ImageView
+            android:id="@+id/upArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -58,12 +59,26 @@
             android:textColor="#fff"
             />
 
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="13dp"
+            android:id="@+id/btnPlay"
+            app:srcCompat="@drawable/ic_pause"
+            android:visibility="gone"
+            android:tint="#fff"
+            />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_margin="16dp"
-            app:srcCompat="@drawable/ic_play" />
+            android:id="@+id/btnPause"
+            app:srcCompat="@drawable/ic_play"
+
+
+            />
     </RelativeLayout>
 </FrameLayout>
-

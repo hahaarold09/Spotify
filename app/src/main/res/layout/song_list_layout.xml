@@ -26,19 +26,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtSong"
-            android:text="Occupation"
+            android:text="Singer"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="#c0c0c0" />
+            android:textColor="@drawable/selector" />
+        <TextView
+            android:id="@+id/txtdot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtSong"
+            android:layout_toRightOf="@id/txtSinger"
+            android:text=" • "
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@drawable/selector"
+            android:layout_toEndOf="@id/txtSinger" />
 
         <TextView
             android:id="@+id/txtAlbum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtSong"
-            android:layout_toRightOf="@id/txtSinger"
-            android:text="Album"
+            android:layout_toRightOf="@id/txtdot"
+            android:text="album"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="#c0c0c0" />
+            android:textColor="@drawable/selector"
+            android:layout_toEndOf="@id/txtdot" />
 
         <ImageView
             android:layout_width="wrap_content"

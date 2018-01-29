@@ -5,26 +5,62 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+
+
 
 /**
- * Created by Harold on 12/16/2017.
+ * A simple [Fragment] subclass.
  */
-class SongFragment : Fragment() {
+class SongFragment : Fragment(){
+    private var fragmentSong: TextView?=null
+    private var fragmentAlbum: TextView?=null
+    private var fragmentDot: TextView?=null
+    private var mUpArrow: ImageView?=null
+    private var mPlay: ImageView?=null
+    private var mPause: ImageView?=null
 
-    private var songs: List<String>? = null
-    private var albums: List<String>? = null
-    private val PARTS_SONG = "parts_list"
-    private val PARTS_ALBUM = "parts_number"
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+   class Key{
+        companion object {
+            var SONG = "song"
+            var ALBUM = "album"
+        }
+    }
+    companion object {
 
-        if (savedInstanceState != null) {
-            songs = savedInstanceState.getStringArrayList(PARTS_SONG)
-            albums = savedInstanceState.getStringArrayList(PARTS_ALBUM)
+        fun newInstance (song :String, album: String) : SongFragment{
+            val args = Bundle()
+            args.putString(Key.SONG, song)
+            args.putString(Key.ALBUM, album)
+            val fragment = SongFragment()
+            fragment.arguments = args
+            return fragment
 
         }
-
-        val rootView = inflater?.inflate(R.layout.fragment_song, container, false)
-        return rootView
     }
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        var v = inflater!!.inflate(R.layout.fragment, container, false)
+        fragmentSong = v.findViewById(R.id.txtfragment_song)
+        fragmentAlbum = v.findViewById(R.id.txtfragment_album)
+        fragmentDot = v.findViewById(R.id.txtfragment_center)
+
+
+
+        var song = arguments.getString(Key.SONG)
+        var album = arguments.getString(Key.ALBUM)
+
+        if(song != null && album != null){
+            fragmentSong?.text = song
+            fragmentAlbum?.text = album
+        }
+
+        return v
+    }
+
+
+
+
 }

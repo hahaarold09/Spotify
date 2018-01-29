@@ -12,8 +12,8 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+       >
         <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -58,7 +58,7 @@
             android:textAllCaps="true"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textColor="#fff"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
 
         <android.support.v7.widget.RecyclerView
@@ -82,32 +82,29 @@
             app:srcCompat="@drawable/ic_menu" />
 
         <FrameLayout
-            android:layout_width="match_parent"
+            android:id="@+id/fragment1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="57dp">
-
+            android:layout_above="@+id/bottomNavigation"
+            android:layout_marginBottom="1dp"
+            android:background="#444444">
             <include
-                layout="@layout/fragment_song"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-
-            <include
-                layout="@layout/bottom_navigation_view"
+                layout="@layout/fragment"
                 android:layout_width="match_parent"
                 android:layout_height="56dp" />
 
         </FrameLayout>
 
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            app:menu="@menu/navigation"
+            app:itemIconTint="#fff"
+            app:itemTextColor="#fff"
+            android:background="#444444"/>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
