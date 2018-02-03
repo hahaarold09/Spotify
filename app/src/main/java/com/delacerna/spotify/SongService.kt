@@ -14,7 +14,10 @@ class SongService : Service() {
 
     var currentPos: Int = 0
     var songDataList: ArrayList<String> = ArrayList()
-    var mediaPlay: MediaPlayer? = null
+
+    companion object {
+        var mediaPlay: MediaPlayer? = null
+    }
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -36,20 +39,20 @@ class SongService : Service() {
         mediaPlay!!.prepare()
         mediaPlay!!.setOnPreparedListener {
             mediaPlay!!.start()
-
         }
 
         return super.onStartCommand(intent, flags, startId)
     }
 
-    fun pauseSong() {
-        mediaPlay!!.pause()
 
+    fun pauseSong(){
+        if(mediaPlay!!.isPlaying)
+            mediaPlay?.currentPosition
+            mediaPlay!!.pause()
     }
 
     fun playSong() {
         mediaPlay!!.start()
-
 
     }
 

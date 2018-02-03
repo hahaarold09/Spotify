@@ -3,8 +3,12 @@ package com.delacerna.spotify
 /**
  * Created by Harold on 12/17/2017.
  */
+import android.annotation.SuppressLint
+import android.app.Fragment
+import android.app.FragmentManager
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,16 +19,19 @@ import android.widget.TextView
 import android.widget.Toast
 
 
-class SongListAdapter(val songList: ArrayList<Song>, context: Context, val mainActivity: MainActivity) : RecyclerView.Adapter<SongListAdapter.ViewHolder>() {
+class SongListAdapter(val songList: ArrayList<Song>, context: Context, var mainActivity: MainActivity) : RecyclerView.Adapter<SongListAdapter.ViewHolder>() {
 
-    var mContext = context
-    var allSongList: ArrayList<String> = ArrayList()
+    private var mContext = context
+    private var allSongList: ArrayList<String> = ArrayList()
+
 
     companion object {
         val SONGLIST = "songList"
         val SONGPOS = "songPos"
     }
+
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+
         holder?.song?.text = songList[position].spotifyTitle
         holder?.singer?.text = songList[position].spotifySinger
         holder?.album?.text = songList[position].spotifyAlbum
@@ -34,21 +41,19 @@ class SongListAdapter(val songList: ArrayList<Song>, context: Context, val mainA
                 allSongList.add(songList[i].spotifyPath)
             }
             try {
-                val fragment = SongFragment.newInstance(songList[position].spotifyTitle, songList[position].spotifyAlbum)
+                val mSongFragment = SongFragment.newInstance(songList[position].spotifyTitle,songList[position].spotifyAlbum)
                 mainActivity.supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.fragment1, fragment)
+                        .replace(R.id.fragmentDisplay, mSongFragment)
                         .addToBackStack(null)
                         .commit()
-            }
-            catch (e: Exception){
-            Toast.makeText(mContext,"Wrong!", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+               Toast.makeText(mContext,"Error!",Toast.LENGTH_SHORT).show()
             }
             var intent = Intent(mContext, SongService::class.java)
             intent.putStringArrayListExtra(SONGLIST, allSongList)
             intent.putExtra(SONGPOS, position)
             mContext.startService(intent)
-
 
         }
     }

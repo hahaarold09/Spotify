@@ -13,15 +13,15 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import android.support.design.widget.BottomNavigationView
 import android.view.View
-
 import android.widget.ImageView
-import kotlinx.android.synthetic.main.fragment.*
+import android.widget.TextView
 
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
     var songData: ArrayList<Song> = ArrayList()
     var songListAdapter: SongListAdapter? = null
+
     private var tvPause: ImageView? = null
     private var tvPlay: ImageView? = null
     private var mySong = SongService()
@@ -35,10 +35,10 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        findViews()
+
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         BottomNavHelper.disableShiftMode(bottomNavigationView)
-
-
 
         if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this@MainActivity,
@@ -47,19 +47,28 @@ class MainActivity : AppCompatActivity(){
                     REQUEST_CODE)
         } else {
             loadData()
+            songOnClick()
         }
 
+    }
+
+    private fun songOnClick() {
+        tvPause?.setOnClickListener {
+            tvPause?.visibility = View.INVISIBLE
+            tvPlay?.visibility = View.VISIBLE
+            mySong.pauseSong()
+        }
+        tvPlay?.setOnClickListener {
+            tvPlay?.visibility = View.INVISIBLE
+            tvPause?.visibility = View.VISIBLE
+            mySong.playSong()
+        }
+
+    }
+
+    private fun findViews() {
         tvPause = findViewById(R.id.btnPause)
         tvPlay = findViewById(R.id.btnPlay)
-        btnPause?.setOnClickListener{
-            mySong.pauseSong()
-
-        }
-        tvPlay?.setOnClickListener{
-
-
-        }
-
     }
 
 

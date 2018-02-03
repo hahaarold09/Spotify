@@ -82,17 +82,13 @@
             app:srcCompat="@drawable/ic_menu" />
 
         <FrameLayout
-            android:id="@+id/fragment1"
-            android:layout_width="wrap_content"
+            android:id="@+id/fragmentDisplay"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/bottomNavigation"
-            android:layout_marginBottom="1dp"
-            android:background="#444444">
-            <include
-                layout="@layout/fragment"
-                android:layout_width="match_parent"
-                android:layout_height="56dp" />
-
+            android:layout_alignParentBottom="true"
+            android:background="#444444"
+            android:layout_marginBottom="58dp">
         </FrameLayout>
 
         <android.support.design.widget.BottomNavigationView
