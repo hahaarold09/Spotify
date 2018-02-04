@@ -1,6 +1,7 @@
 package com.delacerna.spotify
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Bundle
@@ -28,7 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         val REQUEST_CODE = 12
-
+        var songName: TextView? = null
+        var albumName: TextView? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,11 +71,14 @@ class MainActivity : AppCompatActivity() {
     private fun findViews() {
         tvPause = findViewById(R.id.btnPause)
         tvPlay = findViewById(R.id.btnPlay)
+        songName = findViewById(R.id.txtfragment_song)
+        albumName = findViewById(R.id.txtfragment_album)
     }
 
 
+    @SuppressLint("Recycle")
     fun loadData() {
-        var songCursor: Cursor? = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+        val songCursor: Cursor? = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 null, null, null, null)
         while (songCursor != null && songCursor.moveToNext()) {
             var songTitle = songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
@@ -84,7 +89,7 @@ class MainActivity : AppCompatActivity() {
             songData.add(Song(songTitle, songSinger, songAlbum, songPath))
         }
         songListAdapter = SongListAdapter(songData, applicationContext, mainActivity = MainActivity())
-        var layoutManager = LinearLayoutManager(applicationContext)
+        val layoutManager = LinearLayoutManager(applicationContext)
         recyclerView1.layoutManager = layoutManager
         recyclerView1.adapter = songListAdapter
     }

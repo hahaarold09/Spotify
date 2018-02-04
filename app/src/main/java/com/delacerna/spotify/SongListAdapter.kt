@@ -48,12 +48,15 @@ class SongListAdapter(val songList: ArrayList<Song>, context: Context, var mainA
                         .addToBackStack(null)
                         .commit()
             } catch (e: Exception) {
-               Toast.makeText(mContext,"Error!",Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
             }
             var intent = Intent(mContext, SongService::class.java)
             intent.putStringArrayListExtra(SONGLIST, allSongList)
             intent.putExtra(SONGPOS, position)
             mContext.startService(intent)
+
+            MainActivity.songName?.text = holder.song.text
+           MainActivity.albumName?.text = holder.album.text
 
         }
     }

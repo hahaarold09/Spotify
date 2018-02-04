@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 
 
@@ -16,6 +17,10 @@ class SongFragment : Fragment(){
 
     private var mSong: TextView?=null
     private var mAlbum: TextView?=null
+    private var mDot: TextView?=null
+    private var mBack: ImageView?=null
+    private var mPause: ImageView?=null
+    private var mPlay: ImageView?=null
     companion object {
         fun newInstance(song:String, album:String): SongFragment{
             val args = Bundle()
@@ -32,6 +37,11 @@ class SongFragment : Fragment(){
         val rootView = inflater?.inflate(R.layout.fragment_layout, container, false)
             mSong = rootView?.findViewById(R.id.txtfragment_song)
             mAlbum = rootView?.findViewById(R.id.txtfragment_album)
+            mDot = rootView?.findViewById(R.id.txtfragment_center)
+            mBack = rootView?.findViewById(R.id.upArrow)
+            mPause = rootView?.findViewById(R.id.btnPause)
+            mPlay = rootView?.findViewById(R.id.btnPlay)
+
         val song = arguments.getString(Key.SONGTNAME)
         val album = arguments.getString(Key.ALBUMNAME)
 

@@ -44,13 +44,11 @@ class SongService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-
     fun pauseSong(){
         if(mediaPlay!!.isPlaying)
             mediaPlay?.currentPosition
             mediaPlay!!.pause()
     }
-
     fun playSong() {
         mediaPlay!!.start()
 
